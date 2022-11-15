@@ -8,7 +8,7 @@ RUN apt-get update \
 
 # Setup the Python's configs
 RUN pip install --upgrade pip && \
-    pip install --no-cache-dir pandas==0.23.4 && \
+    pip install --no-cache-dir pandas==1.4.4 && \
     pip install --no-cache-dir pybase64 && \
     pip install --no-cache-dir scipy && \
     pip install --no-cache-dir dask[complete] && \
