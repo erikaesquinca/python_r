@@ -22,6 +22,7 @@ RUN pip install --upgrade pip && \
 # Setup the R configs
 RUN apt-get update
 RUN apt-get install -y gdebi-core
+RUN apt-get install wget
 RUN wget https://download2.rstudio.org/server/bionic/amd64/rstudio-server-1.2.5019-amd64.deb
 RUN gdebi --n rstudio-server-1.2.5019-amd64.deb
 RUN useradd -u 54917 rstudio
