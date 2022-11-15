@@ -21,22 +21,12 @@ RUN pip install --upgrade pip && \
 
 # Setup the R configs
 RUN apt-get update
-RUN apt-get install -y software-properties-common
-RUN add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran35/'
-RUN apt update
-ENV DEBIAN_FRONTEND=noninteractive 
-RUN apt install -y r-base
-RUN pip install rpy2==2.9.4
-RUN apt-get -y install libxml2 libxml2-dev libcurl4-gnutls-dev libssl-dev
-RUN echo "r <- getOption('repos'); r['CRAN'] <- 'https://cran.r-project.org'; options(repos = r);" > ~/.Rprofile
-RUN Rscript -e "install.packages('BiocManager')"
-RUN Rscript -e "BiocManager::install('ggplot2')"
-RUN Rscript -e "BiocManager::install('DESeq2')"
-RUN Rscript -e "BiocManager::install('RColorBrewer')"
-RUN Rscript -e "BiocManager::install('ggrepel')"
-RUN Rscript -e "BiocManager::install('factoextra')"
-RUN Rscript -e "BiocManager::install('FactoMineR')"
-RUN Rscript -e "BiocManager::install('apeglm')"
+RUN apt-get install -y gdebi-core
+RUN wget https://download2.rstudio.org/server/bionic/amd64/rstudio-server-1.2.5019-amd64.deb
+RUN gdebi --n rstudio-server-1.2.5019-amd64.deb
+RUN useradd -u 54917 rstudio
+USER rstudio
+
 
 WORKDIR /
 # Copy all the necessary files of the app to the container
