@@ -20,13 +20,19 @@ RUN pip install --upgrade pip && \
     pip install --no-cache-dir tzlocal
 
 # Setup the R configs
-RUN apt-get update
-RUN apt-get install -y gdebi-core
-RUN apt-get install wget
-RUN wget https://download2.rstudio.org/server/bionic/amd64/rstudio-server-1.2.5019-amd64.deb
-RUN gdebi --n rstudio-server-1.2.5019-amd64.deb
-RUN useradd -u 54917 rstudio
-USER rstudio
+RUN apt-get update \
+        && apt-get install -y --no-install-recommends \
+                 littler \
+         r-base \
+         r-base-dev \
+         r-recommended \
+    && ln -s /usr/lib/R/site-library/littler/examples/install.r /usr/local/bin/install.r \
+    && ln -s /usr/lib/R/site-library/littler/examples/install2.r /usr/local/bin/install2.r \
+    && ln -s /usr/lib/R/site-library/littler/examples/installGithub.r /usr/local/bin/installGithub.r \
+    && ln -s /usr/lib/R/site-library/littler/examples/testInstalled.r /usr/local/bin/testInstalled.r \
+    && install.r docopt \
+    && rm -rf /tmp/downloaded_packages/ /tmp/*.rds \
+    && rm -rf /var/lib/apt/lists/*
 
 
 WORKDIR /
